@@ -17,6 +17,7 @@ import { store as noticesStore } from '@wordpress/notices';
 /**
  * Internal dependencies
  */
+import TemplateAddedBy from './added-by';
 import { store as editSiteStore } from '../../store';
 import isTemplateRemovable from '../../utils/is-template-removable';
 import isTemplateRevertable from '../../utils/is-template-revertable';
@@ -180,7 +181,10 @@ export default function Table( { templateType } ) {
 						</td>
 
 						<td className="edit-site-list-table-column" role="cell">
-							{ template.theme }
+							<TemplateAddedBy
+								templateType={ templateType }
+								template={ template }
+							/>
 						</td>
 						<td className="edit-site-list-table-column" role="cell">
 							<Actions template={ template } />
