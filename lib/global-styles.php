@@ -276,6 +276,11 @@ function gutenberg_global_styles_include_support_for_wp_variables( $allow_css, $
 	return ! ! preg_match( '/^var\(--wp-[a-zA-Z0-9\-]+\)$/', trim( $parts[1] ) );
 }
 
+/**
+ * Function to enqueue the CSS Custom Properties
+ * coming from theme.json.
+ *
+ */
 function gutenberg_load_css_custom_properties() {
 	wp_register_style( 'global-styles-css-custom-properties', false, array(), true, true );
 	wp_add_inline_style( 'global-styles-css-custom-properties', gutenberg_get_global_stylesheet( array( 'variables' ) ) );
