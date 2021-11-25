@@ -247,58 +247,63 @@ export default function ColorEdit( {
 							} }
 						/>
 					) }
-					{ ! isEditing && (
-						<Button
-							disabled={ ! hasColors }
-							isSmall
-							icon={ moreVertical }
-							label={ __( 'Edit colors' ) }
-							onClick={ () => {
-								setIsEditing( true );
-							} }
-						/>
-					) }
-					{ isEditing && ( canReset || ! canOnlyChangeValues ) && (
-						<DropdownMenu
-							icon={ moreVertical }
-							label={ __( 'Color options' ) }
-							toggleProps={ {
-								isSmall: true,
-							} }
-						>
-							{ ( { onClose } ) => (
-								<>
-									<NavigableMenu role="menu">
-										{ ! canOnlyChangeValues && (
+					{ canReset ||
+						( ! canOnlyChangeValues && (
+							<DropdownMenu
+								icon={ moreVertical }
+								label={ __( 'Color options' ) }
+								toggleProps={ {
+									isSmall: true,
+								} }
+							>
+								{ ( { onClose } ) => (
+									<>
+										<NavigableMenu role="menu">
 											<Button
 												variant="tertiary"
+												disabled={
+													! hasColors || isEditing
+												}
 												onClick={ () => {
-													setEditingColor( null );
-													setIsEditing( false );
-													onChange();
+													setIsEditing( true );
 													onClose();
 												} }
 											>
-												{ __( 'Remove all colors' ) }
+												{ __( 'Edit custom colors' ) }
 											</Button>
-										) }
-										{ canReset && (
-											<Button
-												variant="tertiary"
-												onClick={ () => {
-													setEditingColor( null );
-													onChange();
-													onClose();
-												} }
-											>
-												{ __( 'Reset colors' ) }
-											</Button>
-										) }
-									</NavigableMenu>
-								</>
-							) }
-						</DropdownMenu>
-					) }
+
+											{ ! canOnlyChangeValues && (
+												<Button
+													variant="tertiary"
+													onClick={ () => {
+														setEditingColor( null );
+														setIsEditing( false );
+														onChange();
+														onClose();
+													} }
+												>
+													{ __(
+														'Remove all colors'
+													) }
+												</Button>
+											) }
+											{ canReset && (
+												<Button
+													variant="tertiary"
+													onClick={ () => {
+														setEditingColor( null );
+														onChange();
+														onClose();
+													} }
+												>
+													{ __( 'Reset colors' ) }
+												</Button>
+											) }
+										</NavigableMenu>
+									</>
+								) }
+							</DropdownMenu>
+						) ) }
 				</ColorActionsContainer>
 			</ColorHStackHeader>
 			{ hasColors && (
