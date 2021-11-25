@@ -354,6 +354,7 @@ class Gutenberg_REST_Templates_Controller extends WP_REST_Controller {
 			$changes->tax_input   = array(
 				'wp_theme' => $template->theme,
 			);
+			$changes->origin      = $template->source;
 		} else {
 			$changes->post_name   = $template->slug;
 			$changes->ID          = $template->wp_id;
@@ -421,6 +422,7 @@ class Gutenberg_REST_Templates_Controller extends WP_REST_Controller {
 			'content'        => array( 'raw' => $template->content ),
 			'slug'           => $template->slug,
 			'source'         => $template->source,
+			'origin'         => $template->origin,
 			'type'           => $template->type,
 			'description'    => $template->description,
 			'title'          => array(
@@ -558,6 +560,12 @@ class Gutenberg_REST_Templates_Controller extends WP_REST_Controller {
 				),
 				'source'         => array(
 					'description' => __( 'Source of template', 'gutenberg' ),
+					'type'        => 'string',
+					'context'     => array( 'embed', 'view', 'edit' ),
+					'readonly'    => true,
+				),
+				'source'         => array(
+					'description' => __( 'Source of customized template', 'gutenberg' ),
 					'type'        => 'string',
 					'context'     => array( 'embed', 'view', 'edit' ),
 					'readonly'    => true,
