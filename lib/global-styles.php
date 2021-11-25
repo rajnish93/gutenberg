@@ -279,7 +279,6 @@ function gutenberg_global_styles_include_support_for_wp_variables( $allow_css, $
 /**
  * Function to enqueue the CSS Custom Properties
  * coming from theme.json.
- *
  */
 function gutenberg_load_css_custom_properties() {
 	wp_register_style( 'global-styles-css-custom-properties', false, array(), true, true );
