@@ -214,6 +214,10 @@ class Gutenberg_REST_Templates_Controller extends WP_REST_Controller {
 
 		$changes = $this->prepare_item_for_database( $request );
 
+		if ( is_wp_error( $changes ) ) {
+			return $changes;
+		}
+
 		if ( 'custom' === $template->source ) {
 			$result = wp_update_post( wp_slash( (array) $changes ), true );
 		} else {
@@ -252,7 +256,12 @@ class Gutenberg_REST_Templates_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function create_item( $request ) {
-		$changes            = $this->prepare_item_for_database( $request );
+		$changes = $this->prepare_item_for_database( $request );
+
+		if ( is_wp_error( $changes ) ) {
+			return $changes;
+		}
+
 		$changes->post_name = $request['slug'];
 		$result             = wp_insert_post( wp_slash( (array) $changes ), true );
 		if ( is_wp_error( $result ) ) {
@@ -354,7 +363,9 @@ class Gutenberg_REST_Templates_Controller extends WP_REST_Controller {
 			$changes->tax_input   = array(
 				'wp_theme' => $template->theme,
 			);
-			$changes->origin      = $template->source;
+			$changes->meta_input  = array(
+				'origin' => $template->source,
+			);
 		} else {
 			$changes->post_name   = $template->slug;
 			$changes->ID          = $template->wp_id;
@@ -564,7 +575,7 @@ class Gutenberg_REST_Templates_Controller extends WP_REST_Controller {
 					'context'     => array( 'embed', 'view', 'edit' ),
 					'readonly'    => true,
 				),
-				'source'         => array(
+				'origin'         => array(
 					'description' => __( 'Source of customized template', 'gutenberg' ),
 					'type'        => 'string',
 					'context'     => array( 'embed', 'view', 'edit' ),
